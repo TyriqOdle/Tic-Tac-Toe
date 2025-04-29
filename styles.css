@@ -250,14 +250,6 @@ button:hover {
     background-color: #1565c0;
 }
 
-#new-players-btn {
-    background-color: #404040;
-}
-
-#new-players-btn:hover {
-    background-color: #303030;
-}
-
 @media (max-width: 500px) {
     .result-buttons {
         flex-direction: column;

@@ -200,7 +200,12 @@ const displayController = (() =>{
         let resultMessage = document.querySelector("#result-message")
         let playAgainBtm = document.querySelector("#play-again-btn")
         resultScreen.style.display = "flex"
-        resultMessage.textContent = `${winnerName} Wins!`
+        if (winnerName == "Draw"){
+            resultMessage.textContent = `${winnerName}!`
+        }else{
+            resultMessage.textContent = `${winnerName} Wins!`
+        }
+        
 
         playAgainBtm.addEventListener("click",()=>{
             resultScreen.style.display ="none"
