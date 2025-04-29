@@ -189,11 +189,6 @@ button:hover {
     background-color: #1565c0;
 }
 
-.footer {
-    margin-top: 30px;
-    color: #808080;
-    font-size: 14px;
-}
 
 .result-overlay {
     position: fixed;

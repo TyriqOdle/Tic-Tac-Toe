@@ -29,7 +29,7 @@ const getStartData = (() =>{
 
     })
 
-});
+})();
 
 const createPlayer = ((name1, name2)=>{
         let playerOne = Player(name1,"X")
@@ -51,7 +51,6 @@ const GameBoard = (() =>{
             //Event listener for when the board is clicked.
             cell.addEventListener("click", (e) =>{
                 const clickedIndex = e.target.dataset.id
-                console.log(`ID for clickeced ${e.target.dataset.id}`)
                 GameController.playRound(clickedIndex)
                 e.target.style.pointerEvents = "none";
 
@@ -67,8 +66,6 @@ const GameBoard = (() =>{
 
     const updateBoard = (clickedIndex) => {
         const currentMarker = GameController.getCurrentPlayer().marker;
-        console.log(currentMarker)
-        console.log(clickedIndex)
 
         // Get the cell that was clicked
         const oldCell = document.querySelector(`[data-id="${clickedIndex}"]`);
@@ -98,7 +95,9 @@ const GameBoard = (() =>{
 })();
 
 const GameController = (() =>{
-   
+   let playerOne
+   let playerTwo
+   let currentPlayer
     let gameWon = false
     let round = 0
     let winnerName
@@ -170,7 +169,6 @@ const GameController = (() =>{
         return null; // No winner
     };
 
-    const getWinner =  () => winner;
 
     const getCurrentPlayer = () => currentPlayer;
 
@@ -207,14 +205,14 @@ const displayController = (() =>{
         }
         
 
-        playAgainBtm.addEventListener("click",()=>{
+        playAgainBtm.onclick = ()=>{
             resultScreen.style.display ="none"
             gameContainer.style.display = "block"
 
 
             GameBoard.resetBoard()
             GameController.newGame()
-        })
+        }
 
 
 
@@ -237,10 +235,7 @@ const newGame = (() =>{
 })();
 
 
-const gameFlow = (() =>{
-    getStartData()
-    
-})();
+
 
 
 
