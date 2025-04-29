@@ -21,6 +21,12 @@ const GameBoard = (() =>{
                 const clickedIndex = e.target.dataset.id
                 console.log(`ID for clickeced ${e.target.dataset.id}`)
                 GameController.playRound(clickedIndex)
+                e.target.style.pointerEvents = "none";
+
+                //Checks to see if he game has been won and prevents more clicks
+                if (GameController.getGameWon()) {
+                    gameBoard.style.pointerEvents = "none";
+                }
             })
 
             gameBoard.appendChild(cell);
@@ -72,6 +78,7 @@ const GameController = (() =>{
 
     let currentPlayer = playerOne
     let gameWon = false
+    let round = 0
 
 
 
@@ -81,19 +88,20 @@ const GameController = (() =>{
     };
 
     const playRound = (index) =>{
+        round ++
+        console.log(`ROUND ${round}`)
        GameBoard.board[index] = currentPlayer.marker
        const winner = checkWinner(GameBoard.board)
        GameBoard.updateBoard(index)
-        if(winner === null){
+        if(winner == null && round == 9){
+            displayController.displayWinner("Draw")
+        }else if(winner === null){
             switchPlayers()
             startRound()
         }else{
-            console.log(`Winner is ${winner}`)
             displayController.displayWinner(winner)
             gameWon = true
         }
-        
-       
 
     };
 
@@ -122,7 +130,11 @@ const GameController = (() =>{
         return null; // No winner
     };
 
+    const getWinner =  () => winner;
+
     const getCurrentPlayer = () => currentPlayer;
+
+    const getGameWon = () => gameWon;
 
     
 
@@ -131,9 +143,7 @@ const GameController = (() =>{
         startRound,
         playRound,
         getCurrentPlayer,
-        gameWon,
-        
-        
+        getGameWon
     }
 
 })();
@@ -142,7 +152,12 @@ const displayController = (() =>{
     let turnText = document.querySelector(".turn")
     
     const displayWinner = (winner) =>{
-        turnText.textContent = `${winner} WON!!`
+        if(winner == "Draw"){
+            turnText.textContent = `${winner}!!`
+        }else{
+            turnText.textContent = `${winner} WON!!`
+        }
+        
     }
 
     //Export
@@ -152,8 +167,10 @@ const displayController = (() =>{
     }
 })();
 
-GameBoard.createBoard()
-GameController.startRound()
+
+GameBoard.createBoard();
+GameController.startRound();
+
 
 
 
