@@ -9,6 +9,38 @@
     
 </head>
 <body>
+
+    <!--The pop up for names before game starts-->
+
+<div class="modal-overlay" id="player-modal">
+    <div class="modal-content">
+        <h2>Enter Player Names</h2>
+        <form id="player-names-form">
+            <div class="form-group">
+                <label for="player-x">Player One (X)</label>
+                <input type="text" id="player-x" name="playerX" placeholder="Enter name for Player 1" required>
+            </div>
+            <div class="form-group">
+                <label for="player-o">Player Two (O)</label>
+                <input type="text" id="player-o" name="playerO" placeholder="Enter name for Player 2" required>
+            </div>
+            <button type="submit" id="start-game-btn">Start Game</button>
+        </form>
+    </div>
+</div>
+
+    <!--Results Pop Up-->
+    <div class="result-overlay" id="result-modal">
+        <div class="result-content">
+            <h2 id="result-message">Player Wins!</h2>
+            <div class="result-buttons">
+                <button id="play-again-btn">Play Again</button>
+                <button id="new-players-btn">New Players</button>
+            </div>
+        </div>
+    </div>
+
+    <!--The Container of the game.-->
     <div class="container">
         <h1>Tic Tac Toe</h1>
         <div class="turn">Player X's turn</div>

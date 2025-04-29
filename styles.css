@@ -16,6 +16,94 @@ body {
     color: #e0e0e0;
 }
 
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal-content {
+    background-color: #1a1a1a;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    animation: modalFadeIn 0.3s ease forwards;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-content h2 {
+    color: #e0e0e0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #a0a0a0;
+    font-size: 16px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    background-color: #2d2d2d;
+    border: 1px solid #3d3d3d;
+    border-radius: 5px;
+    color: #e0e0e0;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #2979ff;
+    box-shadow: 0 0 0 2px rgba(41, 121, 255, 0.2);
+}
+
+
+#start-game-btn {
+    background-color: #2979ff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+#start-game-btn:hover {
+    background-color: #1565c0;
+}
+
+/* Hide the game container as first */
+.container {
+    display: none;
+}
+
 .container {
     text-align: center;
     max-width: 600px;
@@ -107,6 +195,79 @@ button:hover {
     font-size: 14px;
 }
 
+.result-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    display: none; /* Hidden by default */
+}
+
+.result-overlay.show {
+    display: flex; /* Show when class is added */
+}
+
+.result-content {
+    background-color: #1a1a1a;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.result-content h2 {
+    color: #e0e0e0;
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+.result-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+#play-again-btn, #new-players-btn {
+    background-color: #2979ff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#play-again-btn:hover, #new-players-btn:hover {
+    background-color: #1565c0;
+}
+
+#new-players-btn {
+    background-color: #404040;
+}
+
+#new-players-btn:hover {
+    background-color: #303030;
+}
+
+@media (max-width: 500px) {
+    .result-buttons {
+        flex-direction: column;
+    }
+    
+    #play-again-btn, #new-players-btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
 @media (max-width: 500px) {
     .game-board {
         grid-template-columns: repeat(3, 80px);

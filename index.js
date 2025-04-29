@@ -1,8 +1,41 @@
 const gameBoard = document.querySelector(".game-board")
+const gameContainer = document.querySelector(".container")
+const startOverlay = document.querySelector(".modal-overlay")
 
 const Player = (name,marker) =>{
     return {name, marker}
-}
+};
+
+const getStartData = (() =>{
+    const form = document.querySelector("#player-names-form")
+
+    form.addEventListener("submit",(e) =>{
+        const formData = new FormData(form)
+        e.preventDefault()
+
+        let player1 = formData.get("playerX")
+        let player2 = formData.get("playerO")
+
+        createPlayer(player1, player2)
+        
+        form.reset()  
+        //Hides start menu and shows game container
+        startOverlay.style.display = "none"
+        gameContainer.style.display = "block"
+
+        //Starts Game
+        GameBoard.createBoard();
+        GameController.startRound();
+
+    })
+
+});
+
+const createPlayer = ((name1, name2)=>{
+        let playerOne = Player(name1,"X")
+        let playerTwo = Player(name2, "O")
+        GameController.setPlayers(playerOne,playerTwo)
+});
 
 const GameBoard = (() =>{
     let board = []
@@ -65,18 +98,21 @@ const GameBoard = (() =>{
 })();
 
 const GameController = (() =>{
-    const playerOne = Player("Jim","X")
-    const playerTwo = Player("Bob", "O")
-
-    let currentPlayer = playerOne
+   
     let gameWon = false
     let round = 0
+    let winnerName
 
+    const setPlayers = (p1, p2) => {
+        playerOne = p1;
+        playerTwo = p2;
+        currentPlayer = playerOne; 
+    };
     const newGame = () =>{
         gameWon = false
         round = 0
-        currentPlayer = playerOne
         gameBoard.style.pointerEvents = "auto";
+        currentPlayer = playerOne
         startRound();
     };
 
@@ -87,7 +123,6 @@ const GameController = (() =>{
 
     const playRound = (index) =>{
         round ++
-        console.log(`ROUND ${round}`)
        GameBoard.board[index] = currentPlayer.marker
        const winner = checkWinner(GameBoard.board)
        GameBoard.updateBoard(index)
@@ -97,7 +132,14 @@ const GameController = (() =>{
             switchPlayers()
             startRound()
         }else{
-            displayController.displayWinner(winner)
+            if(playerOne.marker == winner){
+                winnerName = playerOne.name
+           }else if(playerTwo.marker == winner){
+                winnerName = playerTwo.name
+           }else{
+                winnerName = "Draw"
+           }
+            displayController.displayWinner(winnerName)
             gameWon = true
         }
 
@@ -142,7 +184,8 @@ const GameController = (() =>{
         playRound,
         getCurrentPlayer,
         getGameWon,
-        newGame
+        newGame,
+        setPlayers
     }
 
 })();
@@ -150,12 +193,26 @@ const GameController = (() =>{
 const displayController = (() =>{
     let turnText = document.querySelector(".turn")
     
-    const displayWinner = (winner) =>{
-        if(winner == "Draw"){
-            turnText.textContent = `${winner}!!`
-        }else{
-            turnText.textContent = `${winner} WON!!`
-        }
+    const displayWinner = (winnerName) =>{
+        
+        gameContainer.style.display = "none"
+        let resultScreen = document.querySelector(".result-overlay")
+        let resultMessage = document.querySelector("#result-message")
+        let playAgainBtm = document.querySelector("#play-again-btn")
+        resultScreen.style.display = "flex"
+        resultMessage.textContent = `${winnerName} Wins!`
+
+        playAgainBtm.addEventListener("click",()=>{
+            resultScreen.style.display ="none"
+            gameContainer.style.display = "block"
+
+
+            GameBoard.resetBoard()
+            GameController.newGame()
+        })
+
+
+
         
     }
 
@@ -175,8 +232,11 @@ const newGame = (() =>{
 })();
 
 
-GameBoard.createBoard();
-GameController.startRound();
+const gameFlow = (() =>{
+    getStartData()
+    
+})();
+
 
 
 
