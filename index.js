@@ -4,9 +4,8 @@ const Player = (name,marker) =>{
     return {name, marker}
 }
 
-
 const GameBoard = (() =>{
-    let board = ["", "", "", "", "","","","",""]
+    let board = []
     let clickedIndex
 
     const createBoard = () => {
@@ -49,25 +48,18 @@ const GameBoard = (() =>{
         oldCell.style.pointerEvents = "none";
         
     };
-    
-    
 
     const resetBoard = () =>{
         gameBoard.innerHTML = "";
+        board.splice(0,9)
         createBoard()
     };
-
-    const clearBoard = () =>{
-        gameBoard.innerHTML = "";
-    };
-
 
     //Exporting
     return {
         board,
         createBoard,
         resetBoard,
-        clearBoard,
         updateBoard
     }
 })();
@@ -80,7 +72,13 @@ const GameController = (() =>{
     let gameWon = false
     let round = 0
 
-
+    const newGame = () =>{
+        gameWon = false
+        round = 0
+        currentPlayer = playerOne
+        gameBoard.style.pointerEvents = "auto";
+        startRound();
+    };
 
     const startRound = () =>{
         let turnText = document.querySelector(".turn")
@@ -143,7 +141,8 @@ const GameController = (() =>{
         startRound,
         playRound,
         getCurrentPlayer,
-        getGameWon
+        getGameWon,
+        newGame
     }
 
 })();
@@ -165,6 +164,14 @@ const displayController = (() =>{
     return {
         displayWinner
     }
+})();
+
+const newGame = (() =>{
+    const newGameBtn = document.querySelector("#reset-btn")
+    newGameBtn.addEventListener("click", () =>{
+        GameBoard.resetBoard()
+        GameController.newGame()
+    })
 })();
 
 
