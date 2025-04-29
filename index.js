@@ -7,24 +7,43 @@ const Player = (name,marker) =>{
 
 const GameBoard = (() =>{
     let board = ["", "", "", "", "","","","",""]
+    let clickedIndex
 
     const createBoard = () => {
         for(let i = 0; i < 9; i++){
             let cell = document.createElement("div")
             cell.setAttribute("class","cell")
-           
             cell.textContent = board[i]
             cell.setAttribute("data-id",i)
 
             //Event listener for when the board is clicked.
             cell.addEventListener("click", (e) =>{
-                const index = e.target.dataset.id
-                GameController.playRound(index)
+                const clickedIndex = e.target.dataset.id
+                console.log(`ID for clickeced ${e.target.dataset.id}`)
+                GameController.playRound(clickedIndex)
             })
 
             gameBoard.appendChild(cell);
         }
     };
+
+    const updateBoard = (clickedIndex) => {
+        const currentMarker = GameController.getCurrentPlayer().marker;
+        console.log(currentMarker)
+        console.log(clickedIndex)
+
+        // Get the cell that was clicked
+        const oldCell = document.querySelector(`[data-id="${clickedIndex}"]`);
+
+        // Update the existing cell
+        oldCell.textContent = currentMarker;
+        oldCell.classList.add(currentMarker);
+        
+        // Prevent further clicks after placing
+        oldCell.style.pointerEvents = "none";
+        
+    };
+    
     
 
     const resetBoard = () =>{
@@ -42,7 +61,8 @@ const GameBoard = (() =>{
         board,
         createBoard,
         resetBoard,
-        clearBoard
+        clearBoard,
+        updateBoard
     }
 })();
 
@@ -63,8 +83,7 @@ const GameController = (() =>{
     const playRound = (index) =>{
        GameBoard.board[index] = currentPlayer.marker
        const winner = checkWinner(GameBoard.board)
-       GameBoard.clearBoard()
-       GameBoard.createBoard()
+       GameBoard.updateBoard(index)
         if(winner === null){
             switchPlayers()
             startRound()
@@ -103,13 +122,15 @@ const GameController = (() =>{
         return null; // No winner
     };
 
+    const getCurrentPlayer = () => currentPlayer;
+
     
 
     //Export
     return {
         startRound,
         playRound,
-        currentPlayer,
+        getCurrentPlayer,
         gameWon,
         
         

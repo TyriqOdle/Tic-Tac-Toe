@@ -68,11 +68,11 @@ h1 {
     background-color: #333333;
 }
 
-.cell.x {
+.cell.X {
     color: #64b5f6;
 }
 
-.cell.o {
+.cell.O {
     color: #ff7675;
 }
 
